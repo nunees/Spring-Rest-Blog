@@ -7,8 +7,6 @@ import com.felipe.blog.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CommentService {
@@ -21,11 +19,11 @@ public class CommentService {
         this.userRepository = userRepository;
     }
 
-    public Iterable<Comment> getAllCommentsFromUser(Long user, Long postId){
-        return commentRepository.getAllCommentsFromUser(user,postId);
+    public Iterable<Comment> getAllCommentsFromUser(Long user, Long article_id){
+        return commentRepository.getAllCommentsFromUser(user,article_id);
     }
 
-    public Iterable<Comment> getAllCommentsFromPost(Long postId){
-        return commentRepository.getAllCommentsFromPost(postId);
+    public Iterable<Comment> getAllCommentsFromArticle(Long article_id){
+        return commentRepository.getAllCommentsFromArticle(article_id);
     }
 }

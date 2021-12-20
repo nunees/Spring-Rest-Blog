@@ -22,15 +22,13 @@ public class CommentController {
         this.articleService = articleService;
     }
 
-    @GetMapping("{user}/{post}/all")
-    public Iterable<Comment> getUserCommentsFromPost(@PathVariable Long user, @PathVariable Long post){
-        return commentService.getAllCommentsFromUser(user,post);
+    @GetMapping("{user_id}/{article_id}/all")
+    public Iterable<Comment> getUserCommentsFromPost(@PathVariable Long user_id, @PathVariable Long article_id){
+        return commentService.getAllCommentsFromUser(user_id,article_id);
     }
 
-    @GetMapping("{postId}/all")
-    public Iterable<Comment> getCommentFromPost(@PathVariable Long postId){
-        return commentService.getAllCommentsFromPost(postId);
+    @GetMapping("{article_id}/all")
+    public Iterable<Comment> getCommentFromArticle(@PathVariable Long article_id){
+        return commentService.getAllCommentsFromArticle(article_id);
     }
-
-
 }

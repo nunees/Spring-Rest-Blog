@@ -20,10 +20,10 @@ public class Author {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(length = 20, name = "username", nullable = false)
+    @Column(length = 20, name = "username", nullable = false, unique = true)
     private String username;
 
     @Column(length = 20, name = "Password", nullable = false)

@@ -5,8 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "post")
-public class Post {
+@Table(name = "article")
+public class Article {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -43,8 +43,7 @@ public class Post {
         updated_at = new Date();
     }
 
-    public Post() {
-    }
+    public Article() {}
 
     public Long getId() {
         return id;

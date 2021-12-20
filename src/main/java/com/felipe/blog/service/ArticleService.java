@@ -1,6 +1,6 @@
 package com.felipe.blog.service;
 
-import com.felipe.blog.domain.model.Post;
+import com.felipe.blog.domain.model.Article;
 import com.felipe.blog.repository.ArticleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,15 +19,19 @@ public class ArticleService {
         this.articleRepository = articleRepository;
     }
 
-    public List<Post> getPosts(){
+    public List<Article> getArticles(){
         return articleRepository.findAll();
     }
 
-    public Post savePost(Post post){ return articleRepository.save(post);}
+    public Article saveArticle(Article article){ return articleRepository.save(article);}
 
-    public Post getOnePost(Long post_id) { return articleRepository.findById(post_id).get(); }
+    public Article getOneArticle(Long post_id) {
+        if(articleRepository.findById(post_id).isPresent())
+            return articleRepository.findById(post_id).get();
+        return null;
+    }
 
-    public ResponseEntity deletePost(Long post_id){
+    public ResponseEntity deleteArticle(Long post_id){
         if(articleRepository.findById(post_id).isPresent()) {
             articleRepository.deleteById(post_id);
             return ResponseEntity.ok(HttpStatus.OK);

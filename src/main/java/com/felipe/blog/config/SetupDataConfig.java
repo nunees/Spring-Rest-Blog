@@ -1,7 +1,7 @@
 package com.felipe.blog.config;
 
 import com.felipe.blog.domain.model.Author;
-import com.felipe.blog.domain.model.Post;
+import com.felipe.blog.domain.model.Article;
 import com.felipe.blog.domain.model.User;
 import com.felipe.blog.service.AuthorService;
 import com.felipe.blog.service.CommentService;
@@ -36,10 +36,10 @@ public class SetupDataConfig{
            author.setPassword("password");
            author.setIs_admin(false);
 
-           Post post = new Post();
-           post.setTitle("Lorem ipsum");
-           post.setAuthor(author);
-           post.setContent("Lorem ipsum dolor amet doloar asat");
+           Article article = new Article();
+           article.setTitle("Lorem ipsum");
+           article.setAuthor(author);
+           article.setContent("Lorem ipsum dolor amet doloar asat");
 
            User user = new User();
            user.setUsername("johndoe");
@@ -47,9 +47,9 @@ public class SetupDataConfig{
            user.setPassword("secret");
            user.setEmail("johndoe@mail.com");
 
-//           authorService.saveAuthor(author);
-//           postService.savePost(post);
-//           userService.saveUser(user);
+           authorService.saveAuthor(author);
+           articleService.saveArticle(article);
+           userService.saveUser(user);
        };
    }
 }

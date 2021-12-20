@@ -2,7 +2,6 @@ package com.felipe.blog.domain.model;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table(name = "comment")
@@ -26,7 +25,7 @@ public class Comment {
     private User user;
 
     @ManyToOne
-    private Post post;
+    private Article article;
 
     @PrePersist
     private void onCreate(){
