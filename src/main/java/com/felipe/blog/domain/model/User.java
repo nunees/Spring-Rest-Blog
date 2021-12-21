@@ -1,6 +1,14 @@
 package com.felipe.blog.domain.model;
 
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
 import javax.persistence.*;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.KeySpec;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -20,7 +28,7 @@ public class User {
     @Column(length = 60,name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(length = 40, name = "password", nullable = false)
+    @Column(length = 150, name = "password", nullable = false)
     private String password;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -34,8 +42,9 @@ public class User {
     public User() {}
 
     @PrePersist
-    private void onCreate(){
+    private void onCreate() throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {
         created_at = new Date();
+        this.setPassword(encodePassword(this.getPassword()));
     }
 
     @PostUpdate
@@ -81,6 +90,20 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    private String encodePassword(String password) throws NoSuchAlgorithmException, InvalidKeySpecException, UnsupportedEncodingException {
+        SecureRandom random = new SecureRandom();
+        byte[] salt = new byte[16];
+        random.nextBytes(salt);
+
+        KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 128);
+        SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+
+        byte[] hash = factory.generateSecret(spec).getEncoded();
+
+
+        return new String(hash, "UTF-8");
     }
 
 }
