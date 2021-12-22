@@ -1,9 +1,14 @@
 package com.felipe.blog.controller;
 
 import com.felipe.blog.domain.model.User;
+import com.felipe.blog.dto.Userdto;
+import com.felipe.blog.exceptions.UserException;
+import com.felipe.blog.exceptions.UserExceptionHandler;
 import com.felipe.blog.service.UserService;
+import com.felipe.blog.util.Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.util.List;
 
@@ -18,13 +23,20 @@ public class UserController {
     }
 
     @GetMapping
-    public List<User> getUsers(){
+    public List<Userdto> getUsers(){
         return userService.getUsers();
     }
 
     @PostMapping
     public User addUser(@RequestBody User user){
-        return userService.saveUser(user);
+        try{
+            Hash hash = new Hash(user.getPassword());
+            user.setPassword(hash.hashPassword());
+            System.out.println(user.getPassword());
+            return userService.saveUser(user);
+        }catch (Exception e){
+            throw new UserException("Username or email already taken!");
+        }
     }
 
     @PutMapping("/{user_id}")
