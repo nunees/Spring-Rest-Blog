@@ -1,7 +1,7 @@
 package com.felipe.blog.controller;
 
-import com.felipe.blog.domain.model.Author;
 import com.felipe.blog.dto.Authordto;
+import com.felipe.blog.exceptions.AuthorControllerException.AuthorNotFoundException;
 import com.felipe.blog.service.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,13 +23,13 @@ public class AuthorController {
         return authorService.getAuthors();
     }
 
-    @GetMapping("/{author_id")
+    @GetMapping("/{author_id}")
     public List<Authordto> getAuthor(@PathVariable Long author_id){
-        Author author = authorService.getOneAuthor(author_id);
-        if( author != null){
-            return Authordto.convert(List.of(author));
+        try{
+            return Authordto.convert(List.of(authorService.getOneAuthor(author_id)));
+        }catch (Exception e){
+            throw new AuthorNotFoundException("User not found");
         }
-        return null;
     }
 
 //    @PostMapping
