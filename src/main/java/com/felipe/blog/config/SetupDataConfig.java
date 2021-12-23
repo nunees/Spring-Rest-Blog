@@ -34,7 +34,7 @@ public class SetupDataConfig{
            author.setEmail("felipe_silva@mail.com");
            author.setUsername("felipe3446");
            author.setPassword("password");
-           author.setIs_admin(false);
+           author.set_admin(false);
 
            Article article = new Article();
            article.setTitle("Lorem ipsum");
