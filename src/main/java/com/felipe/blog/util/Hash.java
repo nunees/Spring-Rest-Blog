@@ -20,18 +20,5 @@ public class Hash {
         return BCrypt.checkpw(password, hash);
     }
 
-//    public boolean verifyAndUpdateHash(String password, String hash, Function<String, Boolean> updateFunc) {
-//        if (BCrypt.checkpw(password, hash)) {
-//            int rounds = getRounds(hash);
-//            // It might be smart to only allow increasing the rounds.
-//            // If someone makes a mistake the ability to undo it would be nice though.
-//            if (rounds != logRounds) {
-//                log.debug("Updating password from {} rounds to {}", rounds, logRounds);
-//                String newHash = hash(password);
-//                return updateFunc.apply(newHash);
-//            }
-//            return true;
-//        }
-//        return false;
-//    }
+
 }

@@ -2,13 +2,11 @@ package com.felipe.blog.controller;
 
 import com.felipe.blog.domain.model.User;
 import com.felipe.blog.dto.Userdto;
-import com.felipe.blog.exceptions.UserException;
-import com.felipe.blog.exceptions.UserExceptionHandler;
+import com.felipe.blog.exceptions.UserControllerException.UserException;
 import com.felipe.blog.service.UserService;
 import com.felipe.blog.util.Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.util.List;
 
@@ -23,16 +21,20 @@ public class UserController {
     }
 
     @GetMapping
-    public List<Userdto> getUsers(){
-        return userService.getUsers();
+    public List<Userdto> getUsers() {
+        try {
+            return userService.getUsers();
+        }catch (Exception e){
+            throw new UserException("No records!");
+        }
+
     }
 
     @PostMapping
-    public User addUser(@RequestBody User user){
+    public List<Userdto> addUser(@RequestBody User user){
         try{
             Hash hash = new Hash(user.getPassword());
             user.setPassword(hash.hashPassword());
-            System.out.println(user.getPassword());
             return userService.saveUser(user);
         }catch (Exception e){
             throw new UserException("Username or email already taken!");
@@ -40,18 +42,22 @@ public class UserController {
     }
 
     @PutMapping("/{user_id}")
-    public User updateUser(@PathVariable Long user_id, @RequestBody User user){
-        User tmpUser = userService.getUser(user_id);
-        if(tmpUser != null){
-            tmpUser.setName(user.getName());
-            tmpUser.setUsername(user.getUsername());
-            tmpUser.setEmail(user.getEmail());
-            tmpUser.setPassword(user.getPassword());
-
-            userService.saveUser(tmpUser);
-            return tmpUser;
+    public List<Userdto> updateUser(@PathVariable Long user_id, @RequestBody User updatedUser){
+        try{
+            User user = userService.getUser(user_id);
+            if(user != null){
+                Hash hash = new Hash(updatedUser.getPassword());
+                user.setName(updatedUser.getName());
+                user.setUsername(updatedUser.getUsername());
+                user.setEmail(updatedUser.getEmail());
+                user.setPassword(hash.hashPassword());
+                return userService.saveUser(user);
+            }
+            return null;
+        }catch (Exception e){
+            throw new UserException("Cannot update the selected user!");
         }
-        return null;
+
     }
 
 }

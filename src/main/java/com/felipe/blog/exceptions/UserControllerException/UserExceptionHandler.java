@@ -1,5 +1,6 @@
-package com.felipe.blog.exceptions;
+package com.felipe.blog.exceptions.UserControllerException;
 
+import com.felipe.blog.exceptions.APIException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -12,13 +13,9 @@ import java.time.ZonedDateTime;
 public class UserExceptionHandler {
 
     @ExceptionHandler(value = {UserException.class})
-    public ResponseEntity<Object> handleCannotAddUser(UserException e){
-        //1. Create payload containing exception and details
+    public ResponseEntity<Object> handleUserException(UserException e){
         HttpStatus badRequest = HttpStatus.BAD_REQUEST;
-        APIException apiException = new APIException(e.getMessage(),
-                badRequest,
-                ZonedDateTime.now(ZoneId.of("Z")));
-        //2. Return response entity
+        APIException apiException = new APIException(e.getMessage(), badRequest, ZonedDateTime.now(ZoneId.of("Z")));
         return new ResponseEntity<>(apiException,badRequest);
     }
 }

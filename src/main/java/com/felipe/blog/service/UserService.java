@@ -24,12 +24,13 @@ public class UserService {
     }
 
     public User getUser(Long user_id){
-        if(userRepository.findById(user_id).isPresent())
+        if(userRepository.findById(user_id).isPresent()){
             return userRepository.findById(user_id).get();
+        }
         return null;
     }
 
-    public User saveUser(User user){
-        return userRepository.save(user);
+    public List<Userdto> saveUser(User user){
+        return Userdto.convert(List.of(userRepository.save(user)));
     }
 }

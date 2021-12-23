@@ -1,4 +1,4 @@
-package com.felipe.blog.exceptions;
+package com.felipe.blog.exceptions.UserControllerException;
 
 // This is function will be called by the controller
 public class UserException extends RuntimeException {
